@@ -35,7 +35,7 @@ func main() {
 
 	// NOTE: `_gothic_session` only exists to handle the OAuth2 state parameter handling
 	// cf. https://github.com/markbates/goth/issues/181#issuecomment-590391070
-	store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+	store := sessions.NewCookieStore([]byte("secret"))
 	p := pat.New()
 
 	p.Get("/auth/{provider}/callback", func(res http.ResponseWriter, req *http.Request) {
