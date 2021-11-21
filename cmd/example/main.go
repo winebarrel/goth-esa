@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/pat"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
@@ -36,9 +36,9 @@ func main() {
 	// NOTE: `_gothic_session` only exists to handle the OAuth2 state parameter handling
 	// cf. https://github.com/markbates/goth/issues/181#issuecomment-590391070
 	store := sessions.NewCookieStore([]byte("secret"))
-	p := pat.New()
+	r := mux.NewRouter()
 
-	p.Get("/auth/{provider}/callback", func(res http.ResponseWriter, req *http.Request) {
+	r.Path("/auth/{provider}/callback").Methods("GET").HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		user, err := gothic.CompleteUserAuth(res, req)
 
 		if err != nil {
@@ -54,7 +54,7 @@ func main() {
 		res.WriteHeader(http.StatusTemporaryRedirect)
 	})
 
-	p.Get("/logout/{provider}", func(res http.ResponseWriter, req *http.Request) {
+	r.Path("/logout/{provider}").Methods("GET").HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		gothic.Logout(res, req)
 
 		sess, _ := store.Get(req, "mysqssion")
@@ -65,11 +65,11 @@ func main() {
 		res.WriteHeader(http.StatusTemporaryRedirect)
 	})
 
-	p.Get("/auth/{provider}", func(res http.ResponseWriter, req *http.Request) {
+	r.Path("/auth/{provider}").Methods("GET").HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		gothic.BeginAuthHandler(res, req)
 	})
 
-	p.Get("/", func(res http.ResponseWriter, req *http.Request) {
+	r.Path("/").Methods("GET").HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		sess, _ := store.Get(req, "mysqssion")
 		user := sess.Values["user"]
 
@@ -83,5 +83,5 @@ func main() {
 	})
 
 	log.Println("listening on localhost:3000")
-	log.Fatal(http.ListenAndServe("localhost:3000", p))
+	log.Fatal(http.ListenAndServe("localhost:3000", r))
 }

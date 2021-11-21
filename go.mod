@@ -3,7 +3,7 @@ module github.com/winebarrel/goth-esa
 go 1.17
 
 require (
-	github.com/gorilla/pat v0.0.0-20180118222023-199c85a7f6d1
+	github.com/gorilla/mux v1.6.2
 	github.com/gorilla/sessions v1.1.1
 	github.com/markbates/goth v1.68.0
 	github.com/stretchr/testify v1.4.0
@@ -14,7 +14,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/gorilla/context v1.1.1 // indirect
-	github.com/gorilla/mux v1.6.2 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/net v0.0.0-20200930145003-4acb6c075d10 // indirect
