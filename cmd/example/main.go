@@ -33,6 +33,8 @@ func main() {
 		esa.New(os.Getenv("ESA_KEY"), os.Getenv("ESA_SECRET"), "http://localhost:3000/auth/esa/callback", "read"),
 	)
 
+	// NOTE: `_gothic_session` only exists to handle the OAuth2 state parameter handling
+	// cf. https://github.com/markbates/goth/issues/181#issuecomment-590391070
 	store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 	p := pat.New()
 
