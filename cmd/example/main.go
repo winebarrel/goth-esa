@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/gorilla/pat"
+	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/winebarrel/goth-esa/esa"
@@ -32,38 +33,51 @@ func main() {
 		esa.New(os.Getenv("ESA_KEY"), os.Getenv("ESA_SECRET"), "http://localhost:3000/auth/esa/callback", "read"),
 	)
 
+	store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 	p := pat.New()
 
 	p.Get("/auth/{provider}/callback", func(res http.ResponseWriter, req *http.Request) {
 		user, err := gothic.CompleteUserAuth(res, req)
+
 		if err != nil {
 			fmt.Fprintln(res, err)
 			return
 		}
 
-		t, _ := template.New("foo").Parse(userTemplate)
-		t.Execute(res, user)
+		sess, _ := store.Get(req, "mysqssion")
+		sess.Values["user"] = user
+		sess.Save(req, res)
+
+		res.Header().Set("Location", "/")
+		res.WriteHeader(http.StatusTemporaryRedirect)
 	})
 
 	p.Get("/logout/{provider}", func(res http.ResponseWriter, req *http.Request) {
 		gothic.Logout(res, req)
+
+		sess, _ := store.Get(req, "mysqssion")
+		delete(sess.Values, "user")
+		sess.Save(req, res)
+
 		res.Header().Set("Location", "/")
 		res.WriteHeader(http.StatusTemporaryRedirect)
 	})
 
 	p.Get("/auth/{provider}", func(res http.ResponseWriter, req *http.Request) {
-		// try to get the user without re-authenticating
-		if gothUser, err := gothic.CompleteUserAuth(res, req); err == nil {
-			t, _ := template.New("foo").Parse(userTemplate)
-			t.Execute(res, gothUser)
-		} else {
-			gothic.BeginAuthHandler(res, req)
-		}
+		gothic.BeginAuthHandler(res, req)
 	})
 
 	p.Get("/", func(res http.ResponseWriter, req *http.Request) {
-		t, _ := template.New("foo").Parse(indexTemplate)
-		t.Execute(res, nil)
+		sess, _ := store.Get(req, "mysqssion")
+		user := sess.Values["user"]
+
+		if user == nil {
+			t, _ := template.New("foo").Parse(indexTemplate)
+			t.Execute(res, nil)
+		} else {
+			t, _ := template.New("foo").Parse(userTemplate)
+			t.Execute(res, user)
+		}
 	})
 
 	log.Println("listening on localhost:3000")
