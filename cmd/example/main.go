@@ -46,7 +46,7 @@ func main() {
 			return
 		}
 
-		sess, _ := store.Get(req, "mysqssion")
+		sess, _ := store.Get(req, "mysession")
 		sess.Values["user"] = user
 		sess.Save(req, res)
 
@@ -57,7 +57,7 @@ func main() {
 	p.Get("/logout/{provider}", func(res http.ResponseWriter, req *http.Request) {
 		gothic.Logout(res, req)
 
-		sess, _ := store.Get(req, "mysqssion")
+		sess, _ := store.Get(req, "mysession")
 		delete(sess.Values, "user")
 		sess.Save(req, res)
 
@@ -70,7 +70,7 @@ func main() {
 	})
 
 	p.Get("/", func(res http.ResponseWriter, req *http.Request) {
-		sess, _ := store.Get(req, "mysqssion")
+		sess, _ := store.Get(req, "mysession")
 		user := sess.Values["user"]
 
 		if user == nil {
