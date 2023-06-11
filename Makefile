@@ -1,6 +1,6 @@
 .PHONY: all
 all:
-	SESSION_SECRET=secret go run ./cmd/example/main.go
+	SESSION_SECRET=secret go run ./_example/main.go
 
 .PHONY: test
 test:
