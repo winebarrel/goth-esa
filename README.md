@@ -19,4 +19,4 @@ See [the official documentation](https://docs.esa.io/posts/102#OAuth%E3%82%92%E5
 
 ## Usage
 
-See https://github.com/winebarrel/goth-esa/blob/master/_example/main.go
+See https://github.com/winebarrel/goth-esa/blob/main/_example/main.go
