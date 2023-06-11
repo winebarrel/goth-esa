@@ -1,5 +1,7 @@
 # goth-esa
 
+[![test](https://github.com/winebarrel/goth-esa/actions/workflows/test.yml/badge.svg)](https://github.com/winebarrel/goth-esa/actions/workflows/test.yml)
+
 [Goth](https://github.com/markbates/goth) provider for [esa](https://docs.esa.io/posts/102#OAuth%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%9F%E8%AA%8D%E5%8F%AF%E3%83%95%E3%83%AD%E3%83%BC).
 
 ## Getting Started
