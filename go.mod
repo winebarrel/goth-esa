@@ -3,7 +3,7 @@ module github.com/winebarrel/goth-esa
 go 1.17
 
 require (
-	github.com/markbates/goth v1.77.0
+	github.com/markbates/goth v1.78.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/oauth2 v0.11.0
 )
