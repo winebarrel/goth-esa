@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/markbates/goth v1.80.0
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/oauth2 v0.23.0
+	golang.org/x/oauth2 v0.24.0
 )
 
 require (
