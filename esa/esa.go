@@ -92,7 +92,7 @@ func (p *Provider) FetchUser(session goth.Session) (goth.User, error) {
 	if err != nil {
 		return user, err
 	}
-	defer response.Body.Close()
+	defer response.Body.Close() //nolint:errcheck
 
 	if response.StatusCode != http.StatusOK {
 		return user, fmt.Errorf("%s responded with a %d trying to fetch user information", p.providerName, response.StatusCode)
@@ -140,12 +140,12 @@ func userFromReader(r io.Reader, user *goth.User) error {
 	return nil
 }
 
-//RefreshToken refresh token is not provided by esa
+// RefreshToken refresh token is not provided by esa
 func (p *Provider) RefreshToken(refreshToken string) (*oauth2.Token, error) {
-	return nil, errors.New("Refresh token is not provided by yammer")
+	return nil, errors.New("refresh token is not provided by yammer")
 }
 
-//RefreshTokenAvailable refresh token is not provided by esa
+// RefreshTokenAvailable refresh token is not provided by esa
 func (p *Provider) RefreshTokenAvailable() bool {
 	return false
 }

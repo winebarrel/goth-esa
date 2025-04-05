@@ -1,6 +1,8 @@
 module github.com/winebarrel/goth-esa
 
-go 1.17
+go 1.23.0
+
+toolchain go1.24.2
 
 require (
 	github.com/markbates/goth v1.80.0

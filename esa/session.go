@@ -33,7 +33,7 @@ func (s *Session) Authorize(provider goth.Provider, params goth.Params) (string,
 	}
 
 	if !token.Valid() {
-		return "", errors.New("Invalid token received from provider")
+		return "", errors.New("invalid token received from provider")
 	}
 
 	s.AccessToken = token.AccessToken
@@ -50,7 +50,7 @@ func (s Session) String() string {
 	return s.Marshal()
 }
 
-//CondVal convert string in string array
+// CondVal convert string in string array
 func CondVal(v string) []string {
 	if v == "" {
 		return nil
