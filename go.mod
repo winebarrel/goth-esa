@@ -5,8 +5,8 @@ go 1.23.0
 toolchain go1.24.2
 
 require (
-	github.com/markbates/goth v1.81.0
-	github.com/stretchr/testify v1.10.0
+	github.com/markbates/goth v1.82.0
+	github.com/stretchr/testify v1.11.0
 	golang.org/x/oauth2 v0.30.0
 )
 
